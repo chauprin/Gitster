@@ -9,7 +9,7 @@ import {observable, autorun} from "mobx";
 //import users from "./usernames_arr"
 //import thearray from "./usernames_arr"
 
-var usernames = [];
+
 @inject("store")
 @observer
 export default class App extends Component {
@@ -18,12 +18,23 @@ export default class App extends Component {
         super();
         super(props);
         this.store = this.props.store;
-        this.state = {usernames: [], public_repos: [], arr: []}
+        // this.state = {usernames: [], public_repos: [], arr: []}
+    }
+    state = {
+     username:[]
     }
 
     componentWillMount() {
+        // var _this = this;
+
+    }
+
+    componentDidMount() {
+        this.authenticate();
+        var usernames = [];
         var _this = this;
-        this.serverRequest = axios.get("https://api.github.com/search/users?q=tom+repos:%3E30+followers:%3E354").then(function (arr) {
+        axios.get("https://api.github.com/search/users?q=tom+repos:%3E30+followers:%3E354").then(function (arr) {
+
 
             usernames.push(arr.data.items[0].login);
             usernames.push(arr.data.items[1].login);
@@ -34,12 +45,9 @@ export default class App extends Component {
             usernames.push(arr.data.items[6].login);
             usernames.push(arr.data.items[7].login);
             usernames.push(arr.data.items[8].login);
-            console.log(usernames);
+            // console.log(usernames);
+            _this.setState({username:usernames});
         })
-    }
-
-    componentDidMount() {
-        this.authenticate();
     }
 
     authenticate(e) {
@@ -60,10 +68,9 @@ export default class App extends Component {
         return (
 			<div>
 				<h1>Top GitHub users</h1>
-                <ul>{usernames.map(username => {
-                    return(
+                <ul>{this.state.username?this.state.username.map(username => {
                     <a href="#" onClick={this.handleclick.bind(this)}>{username}</a>
-                )})}</ul>
+                }):<noscript/>}</ul>
 			</div>
         );
     }
