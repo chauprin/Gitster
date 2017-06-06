@@ -6,6 +6,8 @@ import DevTools from "mobx-react-devtools";
 import axios from "axios"
 import TopBar from "./TopBar";
 import {observable, autorun} from "mobx";
+import users from "./usernames_arr"
+import thearray from "./usernames_arr"
 
 @inject("store")
 @observer
@@ -20,13 +22,16 @@ export default class App extends Component {
     componentWillMount() {
         var _this = this;
         var username = "prince-chauhan";
-        this.serverRequest = axios.get("https://api.github.com/search/users?q=tom+repos:%3E30+followers:%3E354").then(function (arr) {
+        /*this.serverRequest = axios.get("https://api.github.com/search/users?q=tom+repos:%3E30+followers:%3E354").then(function (arr) {
             _this.setState({
 				name : "the name",
 				public_repos : "1234",
 			});
-            console.log(arr.data.items[0])
-        })
+        })*/
+        const { usernames } = this.props.users
+
+        {users.get_usernames()}
+        console.log(usernames)
     }
 	
 
@@ -41,10 +46,13 @@ export default class App extends Component {
     }
 
     render() {
+        const { usernames } = this.props.users
         return (
 
 			<div>
 				<h1>repos!</h1>
+
+                {this.props.users.usernames}
 				Name = {this.state.name}
 				Public repos = {this.state.public_repos}
 
@@ -52,5 +60,3 @@ export default class App extends Component {
         );
     }
 }
-
-

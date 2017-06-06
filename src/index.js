@@ -1,5 +1,7 @@
 import("./styles/main.scss");
 import React from "react";
+import ReactDOM from "react-dom";
+import users from "./components/usernames_arr";
 import { render } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "mobx-react";
@@ -10,6 +12,7 @@ import { isProduction } from "./utils/constants";
 import App from "./components/App";
 import stores from "./stores/stores";
 
+
 const store = rehydrate();
 
 const renderApp = Component => {
@@ -17,7 +20,7 @@ const renderApp = Component => {
 		<AppContainer>
 			<Router>
 				<Provider store={isProduction ? store : hotRehydrate()}>
-					<App />
+					<App users = {users}/>
 				</Provider>
 			</Router>
 		</AppContainer>,
@@ -25,8 +28,12 @@ const renderApp = Component => {
 	);
 };
 
+
 renderApp(App);
 
 if (module.hot) {
 	module.hot.accept(() => renderApp(App));
 }
+
+
+//ReactDOM.render(<App users={users} />, document.getElementById("root"))
