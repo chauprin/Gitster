@@ -48,16 +48,22 @@ export default class App extends Component {
     }
     handleclick(username){
         console.log(username)
-    }
+       //this.serverRequest = axios.get("https://api.github.com/users/"+username+"/repos").then(function (arr) {
 
-    render() {
-        var userlist = usernames.map(username => (
-            <a href="#" onClick={this.handleclick.bind(this)}>{username}</a>
-        ))
+       }
+
+
+
+
+    render(){
+        // var userlist =
         return (
 			<div>
 				<h1>Top GitHub users</h1>
-                <ul>{userlist}</ul>
+                <ul>{usernames.map(username => {
+                    return(
+                    <a href="#" onClick={this.handleclick.bind(this)}>{username}</a>
+                )})}</ul>
 			</div>
         );
     }
